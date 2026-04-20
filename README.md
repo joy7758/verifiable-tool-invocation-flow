@@ -2,23 +2,29 @@
 
 Minimal, testable building blocks for a CrewAI Flow that emits verifiable execution evidence for sensitive tool calls.
 
-## Task 1 Scope
+## Current Scope
 
-This repository currently implements only the Task 1 baseline:
+This repository currently implements:
 
 - deterministic canonical JSON serialization
 - SHA-256 hashing helpers
 - typed Pydantic models for the demo request, policy, manifest, and tool output
+- in-memory Ed25519 signing and verification for canonical JSON payloads
 - example JSON inputs
-- tests for canonicalization and hash stability
+- tests for canonicalization, hashing, and signatures
 
 Not implemented yet:
 
-- signatures
 - policy enforcement
 - receipt building
 - validation CLI
 - CrewAI Flow runtime
+
+## Signing Note
+
+`ReceiptSigner` signs canonical JSON payloads with Ed25519 and verifies signatures independently of any Flow runtime.
+
+For mapping payloads, the signer excludes only the top-level `signature` field from the signed body.
 
 ## Quickstart
 
@@ -31,6 +37,6 @@ pytest
 
 ## Current Guarantee Boundary
 
-The current code guarantees only deterministic canonical serialization and stable SHA-256 hashing for equivalent JSON content.
+The current code guarantees deterministic canonical serialization, stable SHA-256 hashing for equivalent JSON content, and verifiable Ed25519 signatures over canonical payloads.
 
-It does not yet guarantee signed receipts, policy correctness, replay protection, or independent validation.
+It does not yet guarantee receipt construction, policy correctness, replay protection, or independent validation.
