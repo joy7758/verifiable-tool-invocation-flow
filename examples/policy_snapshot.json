@@ -1,0 +1,15 @@
+{
+  "policy_id": "policy-demo",
+  "policy_version": "2026-04-21.1",
+  "description": "Allow metadata lookup on the demo dataset.",
+  "allowed_actions": [
+    "metadata.lookup"
+  ],
+  "allowed_resources": [
+    "dataset/customer-metadata"
+  ],
+  "allowed_tools": [
+    "demo_metadata_lookup"
+  ],
+  "issued_at": "2026-04-21T09:55:00Z"
+}

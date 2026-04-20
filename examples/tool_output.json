@@ -1,0 +1,14 @@
+{
+  "execution_id": "exec-001",
+  "tool_id": "demo_metadata_lookup",
+  "status": "succeeded",
+  "output": {
+    "dataset": "customer-metadata",
+    "metadata": {
+      "owner": "data-governance",
+      "region": "cn-north",
+      "retention_class": "internal"
+    }
+  },
+  "produced_at": "2026-04-21T10:00:02Z"
+}
