@@ -3,12 +3,13 @@
   "tool_id": "demo_metadata_lookup",
   "status": "succeeded",
   "output": {
-    "dataset": "customer-metadata",
+    "resource_id": "fdo:demo-dataset-001",
     "metadata": {
-      "owner": "data-governance",
-      "region": "cn-north",
-      "retention_class": "internal"
-    }
+      "title": "Demo Dataset 001",
+      "creator": "Verifiable Tool Invocation Flow",
+      "license": "CC-BY-4.0"
+    },
+    "access_type": "metadata_only"
   },
   "produced_at": "2026-04-21T10:00:02Z"
 }

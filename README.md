@@ -22,7 +22,6 @@ This repository currently implements:
 Not implemented yet:
 
 - replay protection
-- CrewAI Flow runtime
 
 ## Signing Note
 
@@ -47,6 +46,14 @@ The validator checks schema validity, hashes, request bindings, pre-execution co
 `guarded_tool_call.py` is the reusable integration layer for application code and future Flow orchestration. It evaluates policy, executes the tool only if allowed, builds evidence and a signed receipt, validates that receipt independently, and returns the complete result bundle.
 
 It does not implement Flow orchestration or failure receipt variants in this phase.
+
+## Flow Note
+
+`SecureToolInvocationFlow` is the demo orchestration layer. It loads the demo inputs, calls `guarded_tool_call()`, and writes the evidence bundle, receipt, verification report, and public key to `outputs/`.
+
+CrewAI requires Python `>=3.10,<3.14`. Python `3.14` is not currently supported for running `crewai run`.
+
+This project uses the real CrewAI Flow API and is marked as `type = "flow"` for `crewai run` in supported Python environments. If CrewAI is unavailable locally, the Flow tests are skipped explicitly rather than replaced with a compatibility shim.
 
 ## Quickstart
 

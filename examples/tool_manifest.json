@@ -2,21 +2,21 @@
   "tool_id": "demo_metadata_lookup",
   "tool_name": "Demo Metadata Lookup Tool",
   "tool_version": "0.1.0",
-  "description": "Returns non-sensitive metadata fields for a named dataset.",
+  "description": "Returns deterministic metadata for the single supported demo dataset.",
   "allowed_operations": [
     "metadata.lookup"
   ],
   "input_schema": {
     "type": "object",
     "required": [
-      "dataset",
-      "fields"
+      "resource_id",
+      "metadata_fields"
     ],
     "properties": {
-      "dataset": {
+      "resource_id": {
         "type": "string"
       },
-      "fields": {
+      "metadata_fields": {
         "type": "array",
         "items": {
           "type": "string"
@@ -27,15 +27,19 @@
   "output_schema": {
     "type": "object",
     "required": [
-      "dataset",
-      "metadata"
+      "resource_id",
+      "metadata",
+      "access_type"
     ],
     "properties": {
-      "dataset": {
+      "resource_id": {
         "type": "string"
       },
       "metadata": {
         "type": "object"
+      },
+      "access_type": {
+        "type": "string"
       }
     }
   }

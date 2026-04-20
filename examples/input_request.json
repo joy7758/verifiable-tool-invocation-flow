@@ -4,15 +4,15 @@
   "nonce": "nonce-001",
   "audience": "demo-validator",
   "agent_id": "agent-demo",
-  "resource_id": "dataset/customer-metadata",
+  "resource_id": "fdo:demo-dataset-001",
   "action": "metadata.lookup",
   "tool_id": "demo_metadata_lookup",
   "tool_input": {
-    "dataset": "customer-metadata",
-    "fields": [
-      "owner",
-      "region",
-      "retention_class"
+    "resource_id": "fdo:demo-dataset-001",
+    "metadata_fields": [
+      "title",
+      "creator",
+      "license"
     ]
   },
   "requested_at": "2026-04-21T10:00:00Z"

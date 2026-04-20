@@ -6,7 +6,7 @@
     "metadata.lookup"
   ],
   "allowed_resources": [
-    "dataset/customer-metadata"
+    "fdo:demo-dataset-001"
   ],
   "allowed_tools": [
     "demo_metadata_lookup"
