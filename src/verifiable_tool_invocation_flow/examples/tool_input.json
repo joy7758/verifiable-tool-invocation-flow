@@ -1,0 +1,8 @@
+{
+  "resource_id": "fdo:demo-dataset-001",
+  "metadata_fields": [
+    "title",
+    "creator",
+    "license"
+  ]
+}

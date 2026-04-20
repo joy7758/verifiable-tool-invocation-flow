@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/verification_report.schema.json",
+  "title": "Verification Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "receipt_id",
+    "execution_id",
+    "profile_version",
+    "checked_at",
+    "schema_valid",
+    "input_hash_match",
+    "policy_hash_match",
+    "tool_manifest_hash_match",
+    "tool_input_hash_match",
+    "tool_output_hash_match",
+    "result_hash_match",
+    "pre_execution_commitment_match",
+    "policy_decision_valid",
+    "signature_valid",
+    "time_window_valid",
+    "replay_check_performed",
+    "replay_detected",
+    "audience_match",
+    "request_binding_match",
+    "verdict",
+    "errors",
+    "warnings"
+  ],
+  "properties": {
+    "receipt_id": {
+      "type": "string"
+    },
+    "execution_id": {
+      "type": "string"
+    },
+    "profile_version": {
+      "type": "string"
+    },
+    "checked_at": {
+      "type": "string"
+    },
+    "schema_valid": {
+      "type": "boolean"
+    },
+    "input_hash_match": {
+      "type": "boolean"
+    },
+    "policy_hash_match": {
+      "type": "boolean"
+    },
+    "tool_manifest_hash_match": {
+      "type": "boolean"
+    },
+    "tool_input_hash_match": {
+      "type": "boolean"
+    },
+    "tool_output_hash_match": {
+      "type": "boolean"
+    },
+    "result_hash_match": {
+      "type": "boolean"
+    },
+    "pre_execution_commitment_match": {
+      "type": "boolean"
+    },
+    "policy_decision_valid": {
+      "type": "boolean"
+    },
+    "signature_valid": {
+      "type": "boolean"
+    },
+    "time_window_valid": {
+      "type": "boolean"
+    },
+    "replay_check_performed": {
+      "type": "boolean"
+    },
+    "replay_detected": {
+      "type": "boolean"
+    },
+    "audience_match": {
+      "type": "boolean"
+    },
+    "request_binding_match": {
+      "type": "boolean"
+    },
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "valid",
+        "invalid"
+      ]
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

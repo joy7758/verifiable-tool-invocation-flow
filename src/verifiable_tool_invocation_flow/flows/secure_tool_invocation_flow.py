@@ -12,6 +12,7 @@ from crewai.flow.flow import Flow, FlowState, listen, start
 
 from ..guarded_tool_call import guarded_tool_call
 from ..models import ExecutionRequest, PolicySnapshot, ToolManifest
+from ..resources import load_example_json
 from ..signer import ReceiptSigner
 from ..tools.demo_metadata_lookup_tool import demo_metadata_lookup_tool
 
@@ -43,17 +44,16 @@ class SecureToolInvocationFlow(Flow[SecureToolInvocationState]):
     @start()
     def load_demo_inputs(self):
         """Load the example request, policy, manifest, and tool input into state."""
-        examples_dir = _project_root() / "examples"
-        request = ExecutionRequest.model_validate(_read_json(examples_dir / "input_request.json"))
-        policy = PolicySnapshot.model_validate(_read_json(examples_dir / "policy_snapshot.json"))
-        tool_manifest = ToolManifest.model_validate(_read_json(examples_dir / "tool_manifest.json"))
-        tool_input = _read_json(examples_dir / "tool_input.json")
+        request = ExecutionRequest.model_validate(load_example_json("input_request.json"))
+        policy = PolicySnapshot.model_validate(load_example_json("policy_snapshot.json"))
+        tool_manifest = ToolManifest.model_validate(load_example_json("tool_manifest.json"))
+        tool_input = load_example_json("tool_input.json")
 
         self.state.request = request.model_dump(mode="json")
         self.state.policy = policy.model_dump(mode="json")
         self.state.tool_manifest = tool_manifest.model_dump(mode="json")
         self.state.tool_input = tool_input
-        return {"loaded": True, "input_dir": str(examples_dir)}
+        return {"loaded": True, "input_dir": "package:verifiable_tool_invocation_flow/examples"}
 
     @listen(load_demo_inputs)
     def run_guarded_tool_call(self, _loaded_inputs: dict[str, Any]):
@@ -122,16 +122,6 @@ class SecureToolInvocationFlow(Flow[SecureToolInvocationState]):
             "verdict": (self.state.verification_report or {}).get("verdict", "invalid"),
         }
         return summary
-
-
-def _project_root() -> Path:
-    return Path(__file__).resolve().parents[3]
-
-
-def _read_json(path: Path) -> dict[str, Any]:
-    return json.loads(path.read_text(encoding="utf-8"))
-
-
 def _write_json(path: Path, payload: dict[str, Any]) -> None:
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 

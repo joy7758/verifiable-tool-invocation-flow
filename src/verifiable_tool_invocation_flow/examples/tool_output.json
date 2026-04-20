@@ -1,0 +1,9 @@
+{
+  "resource_id": "fdo:demo-dataset-001",
+  "metadata": {
+    "title": "Demo Dataset 001",
+    "creator": "Verifiable Tool Invocation Flow",
+    "license": "CC-BY-4.0"
+  },
+  "access_type": "metadata_only"
+}

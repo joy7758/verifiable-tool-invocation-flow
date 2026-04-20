@@ -17,6 +17,7 @@ from .hashing import sha256_digest
 from .models import ExecutionRequest, PolicySnapshot, ToolManifest, VerificationReport
 from .policy_checker import PolicyDecision, evaluate_policy
 from .receipt_builder import DEFAULT_AUDIENCE, build_pre_execution_commitment, isoformat_z
+from .resources import load_schema_json
 from .signer import ReceiptSigner
 
 
@@ -230,8 +231,7 @@ def main(argv: list[str] | None = None) -> int:
 
 
 def _validate_receipt_schema(receipt: Mapping[str, Any], errors: list[str]) -> bool:
-    schema_path = Path(__file__).resolve().parents[2] / "schemas" / "execution_receipt.schema.json"
-    schema = load_json_file(schema_path)
+    schema = load_schema_json("execution_receipt.schema.json")
     try:
         validate_jsonschema(instance=dict(receipt), schema=schema)
     except JSONSchemaValidationError as exc:
