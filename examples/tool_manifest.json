@@ -3,6 +3,9 @@
   "tool_name": "Demo Metadata Lookup Tool",
   "tool_version": "0.1.0",
   "description": "Returns non-sensitive metadata fields for a named dataset.",
+  "allowed_operations": [
+    "metadata.lookup"
+  ],
   "input_schema": {
     "type": "object",
     "required": [

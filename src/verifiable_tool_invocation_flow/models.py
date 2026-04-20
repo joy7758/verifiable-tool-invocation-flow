@@ -58,6 +58,7 @@ class ToolManifest(StrictModel):
     tool_name: str
     tool_version: str
     description: str | None = None
+    allowed_operations: list[str] = Field(default_factory=list)
     input_schema: dict[str, Any] = Field(default_factory=dict)
     output_schema: dict[str, Any] = Field(default_factory=dict)
 
