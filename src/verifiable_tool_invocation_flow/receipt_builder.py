@@ -86,17 +86,15 @@ def build_unsigned_receipt(
     tool_output_hash = sha256_digest(tool_output_payload)
     result_hash = tool_output_hash
 
-    pre_execution_commitment = sha256_digest(
-        {
-            "request_id": request.request_id,
-            "execution_id": execution_id_value,
-            "nonce": nonce_value,
-            "audience": audience,
-            "input_hash": input_hash,
-            "policy_hash": policy_hash,
-            "tool_manifest_hash": tool_manifest_hash,
-            "tool_input_hash": tool_input_hash,
-        }
+    pre_execution_commitment = build_pre_execution_commitment(
+        request_id=request.request_id,
+        execution_id=execution_id_value,
+        nonce=nonce_value,
+        audience=audience,
+        input_hash=input_hash,
+        policy_hash=policy_hash,
+        tool_manifest_hash=tool_manifest_hash,
+        tool_input_hash=tool_input_hash,
     )
 
     tool_call = ReceiptToolCall(
@@ -165,6 +163,32 @@ def build_signed_receipt(
     )
     receipt["signature"] = signer.sign_mapping(receipt)
     return receipt
+
+
+def build_pre_execution_commitment(
+    *,
+    request_id: str,
+    execution_id: str,
+    nonce: str,
+    audience: str,
+    input_hash: str,
+    policy_hash: str,
+    tool_manifest_hash: str,
+    tool_input_hash: str,
+) -> str:
+    """Build the deterministic commitment over pre-execution evidence only."""
+    return sha256_digest(
+        {
+            "request_id": request_id,
+            "execution_id": execution_id,
+            "nonce": nonce,
+            "audience": audience,
+            "input_hash": input_hash,
+            "policy_hash": policy_hash,
+            "tool_manifest_hash": tool_manifest_hash,
+            "tool_input_hash": tool_input_hash,
+        }
+    )
 
 
 def _to_json_object(value: Any) -> dict[str, Any]:

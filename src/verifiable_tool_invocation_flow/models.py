@@ -114,3 +114,30 @@ class ExecutionReceipt(StrictModel):
     signature_alg: str
     signature: str
     tool_call: ReceiptToolCall
+
+
+class VerificationReport(StrictModel):
+    """Represents the outcome of independent receipt verification."""
+
+    receipt_id: str
+    execution_id: str
+    profile_version: str
+    checked_at: str
+    schema_valid: bool
+    input_hash_match: bool
+    policy_hash_match: bool
+    tool_manifest_hash_match: bool
+    tool_input_hash_match: bool
+    tool_output_hash_match: bool
+    result_hash_match: bool
+    pre_execution_commitment_match: bool
+    policy_decision_valid: bool
+    signature_valid: bool
+    time_window_valid: bool
+    replay_check_performed: bool
+    replay_detected: bool
+    audience_match: bool
+    request_binding_match: bool
+    verdict: Literal["valid", "invalid"]
+    errors: list[str]
+    warnings: list[str]

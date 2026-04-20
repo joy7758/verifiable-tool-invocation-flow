@@ -14,12 +14,12 @@ authors = [
 ]
 dependencies = [
   "cryptography>=42.0",
+  "jsonschema>=4.0",
   "pydantic>=2.7",
 ]
 
 [project.optional-dependencies]
 test = [
-  "jsonschema>=4.0",
   "pytest>=8.0",
 ]
 
