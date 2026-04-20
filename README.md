@@ -13,10 +13,11 @@ This repository currently implements:
 - exact-match policy evaluation for action, resource, tool, and tool-manifest checks
 - signed execution receipt building for one tool invocation
 - independent receipt validation against an evidence bundle
+- a reusable guarded tool-call wrapper that combines policy checking, receipt building, and independent validation
 - example JSON inputs
 - JSON Schema for the execution receipt
 - JSON Schema for the verification report
-- tests for canonicalization, hashing, signatures, policy checks, receipt building, and validation
+- tests for canonicalization, hashing, signatures, policy checks, receipt building, validation, and guarded tool execution
 
 Not implemented yet:
 
@@ -41,6 +42,12 @@ It does not prove semantic correctness of the tool result.
 
 The validator checks schema validity, hashes, request bindings, pre-execution commitment, policy consistency, signature validity, audience, time window, and optional file-based replay detection.
 
+## Guarded Tool Note
+
+`guarded_tool_call.py` is the reusable integration layer for application code and future Flow orchestration. It evaluates policy, executes the tool only if allowed, builds evidence and a signed receipt, validates that receipt independently, and returns the complete result bundle.
+
+It does not implement Flow orchestration or failure receipt variants in this phase.
+
 ## Quickstart
 
 ```bash
@@ -52,6 +59,6 @@ pytest
 
 ## Current Guarantee Boundary
 
-The current code guarantees deterministic canonical serialization, stable SHA-256 hashing for equivalent JSON content, verifiable Ed25519 signatures over canonical payloads, exact-match policy decisions, signed receipt construction for a single tool invocation, and independent receipt verification against evidence bundles.
+The current code guarantees deterministic canonical serialization, stable SHA-256 hashing for equivalent JSON content, verifiable Ed25519 signatures over canonical payloads, exact-match policy decisions, signed receipt construction for a single tool invocation, independent receipt verification against evidence bundles, and a reusable guarded wrapper that prevents execution when policy is denied.
 
 It does not yet guarantee policy correctness or semantic correctness of tool outputs.

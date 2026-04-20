@@ -11,6 +11,7 @@ from .models import (
     ToolOutput,
     VerificationReport,
 )
+from .guarded_tool_call import GuardedToolCallResult, GuardedToolCallVerificationError, guarded_tool_call
 from .policy_checker import PolicyDecision, PolicyDeniedError, assert_policy_allows, evaluate_policy
 from .receipt_builder import (
     build_evidence_bundle,
@@ -24,6 +25,8 @@ from .signer import ReceiptSigner
 __all__ = [
     "ExecutionReceipt",
     "ExecutionRequest",
+    "GuardedToolCallResult",
+    "GuardedToolCallVerificationError",
     "PolicyDecision",
     "PolicyDeniedError",
     "PolicySnapshot",
@@ -40,6 +43,7 @@ __all__ = [
     "canonical_bytes",
     "canonical_json",
     "evaluate_policy",
+    "guarded_tool_call",
     "isoformat_z",
     "normalize_json_value",
     "sha256_digest",
