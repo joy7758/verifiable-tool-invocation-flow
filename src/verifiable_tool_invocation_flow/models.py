@@ -1,4 +1,4 @@
-"""Typed models for the Task 1 demo evidence inputs."""
+"""Typed models for the core demo evidence inputs."""
 
 from __future__ import annotations
 
@@ -71,3 +71,46 @@ class ToolOutput(StrictModel):
     status: Literal["succeeded", "failed"]
     output: dict[str, Any] = Field(default_factory=dict)
     produced_at: str
+
+
+class ReceiptToolCall(StrictModel):
+    """Captures the hashed tool call details embedded in a receipt."""
+
+    tool_call_id: str
+    started_at: str
+    ended_at: str
+    status: str
+    tool_input_hash: str
+    tool_output_hash: str
+
+
+class ExecutionReceipt(StrictModel):
+    """Represents a signed execution receipt for one tool invocation."""
+
+    profile_version: str
+    receipt_id: str
+    execution_id: str
+    request_id: str
+    nonce: str
+    audience: str
+    issued_at: str
+    expires_at: str
+    agent_id: str
+    resource_id: str
+    action: str
+    tool_id: str
+    policy_id: str
+    policy_version: str
+    input_hash: str
+    policy_hash: str
+    tool_manifest_hash: str
+    tool_input_hash: str
+    tool_output_hash: str
+    result_hash: str
+    pre_execution_commitment: str
+    policy_decision: dict[str, Any]
+    issuer: str
+    public_key_id: str
+    signature_alg: str
+    signature: str
+    tool_call: ReceiptToolCall

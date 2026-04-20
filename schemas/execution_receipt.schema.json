@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/execution_receipt.schema.json",
+  "title": "Execution Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "profile_version",
+    "receipt_id",
+    "execution_id",
+    "request_id",
+    "nonce",
+    "audience",
+    "issued_at",
+    "expires_at",
+    "agent_id",
+    "resource_id",
+    "action",
+    "tool_id",
+    "policy_id",
+    "policy_version",
+    "input_hash",
+    "policy_hash",
+    "tool_manifest_hash",
+    "tool_input_hash",
+    "tool_output_hash",
+    "result_hash",
+    "pre_execution_commitment",
+    "policy_decision",
+    "issuer",
+    "public_key_id",
+    "signature_alg",
+    "signature",
+    "tool_call"
+  ],
+  "properties": {
+    "profile_version": {
+      "const": "agent-execution-receipt-profile/0.1"
+    },
+    "receipt_id": {
+      "type": "string"
+    },
+    "execution_id": {
+      "type": "string"
+    },
+    "request_id": {
+      "type": "string"
+    },
+    "nonce": {
+      "type": "string"
+    },
+    "audience": {
+      "type": "string"
+    },
+    "issued_at": {
+      "type": "string"
+    },
+    "expires_at": {
+      "type": "string"
+    },
+    "agent_id": {
+      "type": "string"
+    },
+    "resource_id": {
+      "type": "string"
+    },
+    "action": {
+      "type": "string"
+    },
+    "tool_id": {
+      "type": "string"
+    },
+    "policy_id": {
+      "type": "string"
+    },
+    "policy_version": {
+      "type": "string"
+    },
+    "input_hash": {
+      "type": "string"
+    },
+    "policy_hash": {
+      "type": "string"
+    },
+    "tool_manifest_hash": {
+      "type": "string"
+    },
+    "tool_input_hash": {
+      "type": "string"
+    },
+    "tool_output_hash": {
+      "type": "string"
+    },
+    "result_hash": {
+      "type": "string"
+    },
+    "pre_execution_commitment": {
+      "type": "string"
+    },
+    "issuer": {
+      "type": "string"
+    },
+    "public_key_id": {
+      "type": "string"
+    },
+    "signature_alg": {
+      "const": "Ed25519"
+    },
+    "signature": {
+      "type": "string"
+    },
+    "policy_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowed",
+        "request_id",
+        "policy_id",
+        "policy_version",
+        "action",
+        "resource_id",
+        "tool_id",
+        "reasons",
+        "denied_reasons"
+      ],
+      "properties": {
+        "allowed": {
+          "type": "boolean"
+        },
+        "request_id": {
+          "type": "string"
+        },
+        "policy_id": {
+          "type": "string"
+        },
+        "policy_version": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string"
+        },
+        "resource_id": {
+          "type": "string"
+        },
+        "tool_id": {
+          "type": "string"
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "denied_reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "tool_call": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tool_call_id",
+        "started_at",
+        "ended_at",
+        "status",
+        "tool_input_hash",
+        "tool_output_hash"
+      ],
+      "properties": {
+        "tool_call_id": {
+          "type": "string"
+        },
+        "started_at": {
+          "type": "string"
+        },
+        "ended_at": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "tool_input_hash": {
+          "type": "string"
+        },
+        "tool_output_hash": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -10,14 +10,16 @@ This repository currently implements:
 - SHA-256 hashing helpers
 - typed Pydantic models for the demo request, policy, manifest, and tool output
 - in-memory Ed25519 signing and verification for canonical JSON payloads
+- exact-match policy evaluation for action, resource, tool, and tool-manifest checks
+- signed execution receipt building for one tool invocation
 - example JSON inputs
-- tests for canonicalization, hashing, and signatures
+- JSON Schema for the execution receipt
+- tests for canonicalization, hashing, signatures, policy checks, and receipt building
 
 Not implemented yet:
 
-- policy enforcement
-- receipt building
 - validation CLI
+- replay protection
 - CrewAI Flow runtime
 
 ## Signing Note
@@ -25,6 +27,12 @@ Not implemented yet:
 `ReceiptSigner` signs canonical JSON payloads with Ed25519 and verifies signatures independently of any Flow runtime.
 
 For mapping payloads, the signer excludes only the top-level `signature` field from the signed body.
+
+## Receipt Note
+
+`receipt_builder.py` constructs a signed receipt that binds one request, policy snapshot, tool manifest, tool input, tool output, and policy decision together.
+
+It does not validate receipts, detect replay, or prove semantic correctness of the tool result.
 
 ## Quickstart
 
@@ -37,6 +45,6 @@ pytest
 
 ## Current Guarantee Boundary
 
-The current code guarantees deterministic canonical serialization, stable SHA-256 hashing for equivalent JSON content, and verifiable Ed25519 signatures over canonical payloads.
+The current code guarantees deterministic canonical serialization, stable SHA-256 hashing for equivalent JSON content, verifiable Ed25519 signatures over canonical payloads, exact-match policy decisions, and signed receipt construction for a single tool invocation.
 
-It does not yet guarantee receipt construction, policy correctness, replay protection, or independent validation.
+It does not yet guarantee policy correctness, replay protection, or independent validation.
