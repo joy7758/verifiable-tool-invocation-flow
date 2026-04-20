@@ -64,8 +64,8 @@ class SecureToolInvocationFlow(Flow[SecureToolInvocationState]):
         tool_input = dict(self.state.tool_input or {})
 
         signer = ReceiptSigner.generate_demo()
-        issued_at = datetime(2026, 4, 21, 10, 0, 0, tzinfo=timezone.utc)
-        checked_at = issued_at + timedelta(minutes=5)
+        issued_at = datetime.now(timezone.utc).replace(microsecond=0)
+        checked_at = issued_at + timedelta(seconds=5)
         result = guarded_tool_call(
             request,
             policy,

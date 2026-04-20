@@ -13,7 +13,6 @@ from .models import ExecutionRequest, PolicySnapshot, ToolManifest
 from .policy_checker import PolicyDecision, assert_policy_allows
 from .receipt_builder import build_evidence_bundle, build_signed_receipt
 from .signer import ReceiptSigner
-from .validator import validate_receipt
 
 
 @dataclass(frozen=True)
@@ -82,6 +81,8 @@ def guarded_tool_call(
     )
 
     effective_public_key_pem = public_key_pem or signer.public_key_pem()
+    from .validator import validate_receipt
+
     verification_report = validate_receipt(
         receipt,
         evidence_bundle,

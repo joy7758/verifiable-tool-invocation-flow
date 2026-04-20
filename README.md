@@ -1,71 +1,173 @@
-# verifiable-tool-invocation-flow
+# Secure & Verifiable Tool Invocation Flow
 
-Minimal, testable building blocks for a CrewAI Flow that emits verifiable execution evidence for sensitive tool calls.
+This CrewAI Flow template wraps a sensitive agent tool call with policy checking, evidence capture, signed execution receipts, and independent validation reports.
 
-## Current Scope
+The default demo requires no LLM API key and no network access.
 
-This repository currently implements:
+## What this template does
 
-- deterministic canonical JSON serialization
-- SHA-256 hashing helpers
-- typed Pydantic models for the demo request, policy, manifest, and tool output
-- in-memory Ed25519 signing and verification for canonical JSON payloads
-- exact-match policy evaluation for action, resource, tool, and tool-manifest checks
-- signed execution receipt building for one tool invocation
-- independent receipt validation against an evidence bundle
-- a reusable guarded tool-call wrapper that combines policy checking, receipt building, and independent validation
-- example JSON inputs
-- JSON Schema for the execution receipt
-- JSON Schema for the verification report
-- tests for canonicalization, hashing, signatures, policy checks, receipt building, validation, and guarded tool execution
+- Checks whether a tool invocation is allowed by an exact-match policy snapshot and tool manifest.
+- Captures deterministic evidence for one specific tool invocation.
+- Signs the resulting execution receipt with Ed25519.
+- Validates the receipt independently against the request, policy snapshot, tool manifest, tool input, and tool output.
+- Produces a CrewAI Flow wrapper that orchestrates the existing reusable modules without reimplementing them.
 
-Not implemented yet:
+## When to use it
 
-- replay protection
+- Sensitive dataset metadata access.
+- Controlled API or tool calls that need audit evidence.
+- Compliance-oriented agent workflows.
+- Accountable data operations.
+- Data-space-like environments that need portable execution evidence.
+- Audit-oriented agent tool execution where runtime and verification should be separable.
 
-## Signing Note
+## What it guarantees
 
-`ReceiptSigner` signs canonical JSON payloads with Ed25519 and verifies signatures independently of any Flow runtime.
+- It generates deterministic evidence for a specific tool invocation.
+- It signs the execution receipt with Ed25519.
+- It validates that the receipt matches the request, policy snapshot, tool manifest, tool input, and tool output.
+- It detects tampering of receipt or evidence artifacts.
+- It validates audience binding, request binding, policy alignment, time window, and signature.
+- It optionally detects replay when replay cache is enabled.
 
-For mapping payloads, the signer excludes only the top-level `signature` field from the signed body.
+## What it does NOT guarantee
 
-## Receipt Note
+This template provides verifiable execution evidence for a tool invocation.
+It does not prove semantic correctness of the tool output.
+It does not prove that the policy itself is correct.
+It does not protect against a compromised signer.
+It does not replace sandboxing, IAM, access control, monitoring, or human approval.
+It does not require or expose raw chain-of-thought.
+It is not a full FDO, Gaia-X, IDS, or EDC implementation.
 
-`receipt_builder.py` constructs a signed receipt that binds one request, policy snapshot, tool manifest, tool input, tool output, and policy decision together.
+## Architecture
 
-It does not prove semantic correctness of the tool result.
+```text
+ExecutionRequest
+  -> PolicySnapshot / ToolManifest
+  -> guarded_tool_call()
+  -> demo_metadata_lookup_tool()
+  -> evidence_bundle.json
+  -> execution_receipt.json
+  -> independent validator
+  -> verification_report.json
+```
 
-## Validator Note
+The CrewAI Flow is only orchestration. The reusable core is `guarded_tool_call()`. The validator can run outside the agent runtime.
 
-`validator.py` verifies a signed receipt independently from any Flow runtime and can be used either as a Python module or from the command line with `python -m verifiable_tool_invocation_flow.validator`.
+## Repository layout
 
-The validator checks schema validity, hashes, request bindings, pre-execution commitment, policy consistency, signature validity, audience, time window, and optional file-based replay detection.
+- `src/verifiable_tool_invocation_flow/`: reusable modules, demo tool, validator, and Flow wrapper.
+- `schemas/`: JSON Schema for receipts and verification reports.
+- `examples/`: deterministic demo request, policy, manifest, tool input, and tool output fixtures.
+- `tests/`: unit and integration tests for hashing, signing, policy, receipts, validation, guarded calls, and Flow orchestration.
+- `docs/`: architecture, assumptions, threat model, integration guidance, and marketplace submission material.
+- `outputs/`: generated demo artifacts. Git tracks only `outputs/.gitkeep`.
 
-## Guarded Tool Note
+## Requirements
 
-`guarded_tool_call.py` is the reusable integration layer for application code and future Flow orchestration. It evaluates policy, executes the tool only if allowed, builds evidence and a signed receipt, validates that receipt independently, and returns the complete result bundle.
+- Python `>=3.10,<3.14`
+- CrewAI
+- `cryptography`
+- `pydantic`
+- `jsonschema`
+- `pytest` for tests
 
-It does not implement Flow orchestration or failure receipt variants in this phase.
-
-## Flow Note
-
-`SecureToolInvocationFlow` is the demo orchestration layer. It loads the demo inputs, calls `guarded_tool_call()`, and writes the evidence bundle, receipt, verification report, and public key to `outputs/`.
-
-CrewAI requires Python `>=3.10,<3.14`. Python `3.14` is not currently supported for running `crewai run`.
-
-This project uses the real CrewAI Flow API and is marked as `type = "flow"` for `crewai run` in supported Python environments. If CrewAI is unavailable locally, the Flow tests are skipped explicitly rather than replaced with a compatibility shim.
+CrewAI currently does not support Python 3.14 for this project. Use Python 3.10, 3.11, 3.12, or 3.13.
 
 ## Quickstart
 
 ```bash
-python3 -m venv .venv
+python -m venv .venv
 source .venv/bin/activate
-python3 -m pip install -e ".[test]"
-pytest
+python -m pip install -e ".[test]"
+python -m verifiable_tool_invocation_flow.main
 ```
 
-## Current Guarantee Boundary
+```bash
+uv sync
+uv run python -m verifiable_tool_invocation_flow.main
+```
 
-The current code guarantees deterministic canonical serialization, stable SHA-256 hashing for equivalent JSON content, verifiable Ed25519 signatures over canonical payloads, exact-match policy decisions, signed receipt construction for a single tool invocation, independent receipt verification against evidence bundles, and a reusable guarded wrapper that prevents execution when policy is denied.
+If the CrewAI CLI is available in a supported Python environment:
 
-It does not yet guarantee policy correctness or semantic correctness of tool outputs.
+```bash
+crewai run
+```
+
+## Expected outputs
+
+- `outputs/evidence_bundle.json`
+- `outputs/execution_receipt.json`
+- `outputs/verification_report.json`
+- `outputs/demo_public_key.pem`
+
+`demo_public_key.pem` is public and safe to write. No private key is written. `outputs/` is ignored by Git except `outputs/.gitkeep`.
+
+## Run the independent validator
+
+```bash
+python -m verifiable_tool_invocation_flow.validator \
+  --receipt outputs/execution_receipt.json \
+  --evidence outputs/evidence_bundle.json \
+  --public-key outputs/demo_public_key.pem \
+  --audience demo-validator \
+  --out outputs/verification_report.cli.json
+```
+
+## Use in your own Flow
+
+```python
+from verifiable_tool_invocation_flow.guarded_tool_call import guarded_tool_call
+from verifiable_tool_invocation_flow.signer import ReceiptSigner
+
+result = guarded_tool_call(
+    request=request,
+    policy=policy_snapshot,
+    tool_manifest=tool_manifest,
+    tool_input=tool_input,
+    tool_fn=my_sensitive_tool,
+    signer=ReceiptSigner.generate_demo(),
+)
+
+if result.verification_report["verdict"] != "valid":
+    raise RuntimeError("Tool invocation could not be verified")
+```
+
+## Validator rules
+
+- `schema_valid`
+- `input_hash_match`
+- `policy_hash_match`
+- `tool_manifest_hash_match`
+- `tool_input_hash_match`
+- `tool_output_hash_match`
+- `result_hash_match`
+- `pre_execution_commitment_match`
+- `policy_decision_valid`
+- `signature_valid`
+- `time_window_valid`
+- `replay_check_performed`
+- `replay_detected`
+- `audience_match`
+- `request_binding_match`
+
+## Replay protection
+
+Replay protection is disabled unless `replay_cache_path` is provided. The built-in replay cache is file-based and demo-level only. Production systems should use a shared durable replay store.
+
+## Security assumptions
+
+The validator assumes authentic public-key distribution, stable canonical JSON rules, and access to the receipt plus evidence bundle. See [docs/security_assumptions.md](docs/security_assumptions.md).
+
+## Threat model
+
+The threat model covers tampering, policy mismatch, replay, wrong audience, wrong public key, compromised signer, and guarantee-boundary misunderstandings. See [docs/threat_model.md](docs/threat_model.md).
+
+## FDO / Data Space mapping
+
+This template provides an FDO/Data-Space-like mapping for demonstration only. It is not a full implementation of FDO, Gaia-X, IDS, or EDC. See [docs/fdo_dataspace_mapping.md](docs/fdo_dataspace_mapping.md).
+
+## Marketplace submission note
+
+Marketplace-ready project naming, descriptions, categories, and submission checklist are in [docs/marketplace_submission_note.md](docs/marketplace_submission_note.md).
