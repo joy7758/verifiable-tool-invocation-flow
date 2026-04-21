@@ -1,5 +1,9 @@
 # Secure & Verifiable Tool Invocation Flow
 
+[![PyPI version](https://img.shields.io/pypi/v/verifiable-tool-invocation-flow)](https://pypi.org/project/verifiable-tool-invocation-flow/0.1.1/)
+[![GitHub release](https://img.shields.io/github/v/release/joy7758/verifiable-tool-invocation-flow?sort=semver)](https://github.com/joy7758/verifiable-tool-invocation-flow/releases/tag/v0.1.1)
+[![GitHub Marketplace Action](https://img.shields.io/badge/GitHub%20Marketplace-Verify%20Agent%20Execution%20Receipt-blue?logo=github)](https://github.com/marketplace/actions/verify-agent-execution-receipt)
+
 This CrewAI Flow template wraps a sensitive agent tool call with policy checking, evidence capture, signed execution receipts, and independent validation reports.
 
 The default demo requires no LLM API key and no network access.
@@ -171,3 +175,14 @@ This template provides an FDO/Data-Space-like mapping for demonstration only. It
 ## Marketplace submission note
 
 Marketplace-ready project naming, descriptions, categories, and submission checklist are in [docs/marketplace_submission_note.md](docs/marketplace_submission_note.md).
+
+## Support and commercial integration
+
+This project is open-source infrastructure for verifiable agent execution evidence.
+
+For public technical questions, use GitHub Issues. For private integration, validator adaptation, CI/CD receipt verification, CrewAI workflow integration, or FDO/Data-Space-like evidence mapping, see:
+
+- [SUPPORT.md](SUPPORT.md)
+- [COMMERCIAL_SUPPORT.md](COMMERCIAL_SUPPORT.md)
+
+GitHub Sponsors is not currently enabled for this account. Funding links may be added later once a sponsorship channel is active.
