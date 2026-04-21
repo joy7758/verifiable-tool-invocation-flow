@@ -8,6 +8,14 @@ This CrewAI Flow template wraps a sensitive agent tool call with policy checking
 
 The default demo requires no LLM API key and no network access.
 
+## Live demo
+
+A Hugging Face Spaces demo is available for validating signed execution receipts against evidence bundles:
+
+- [Agent Receipt Validator Space](https://huggingface.co/spaces/joy7759/agent-receipt-validator)
+
+The demo is for inspection and experimentation only. Do not upload private keys, production receipts, confidential evidence bundles, API tokens, or sensitive data.
+
 ## What this template does
 
 - Checks whether a tool invocation is allowed by an exact-match policy snapshot and tool manifest.
