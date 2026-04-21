@@ -42,7 +42,7 @@ The main objective is to evaluate whether the current execution receipt profile 
 
 | Channel | Priority | Purpose | Draft source | Status | Planned date | Posted link |
 |---|---:|---|---|---|---|---|
-| CrewAI Forum | 1 | Flow template and agent workflow feedback | docs/announcement_pack.md - CrewAI forum version | planned | TBD | TBD |
+| CrewAI Forum | 1 | Flow template and agent workflow feedback | docs/announcement_pack.md - CrewAI forum version | posted | 2026-04-21 | https://community.crewai.com/t/verifiable-tool-invocation-receipts-for-crewai-flows/7482 |
 | LangChain Forum | 2 | Tool-calling agent evidence feedback | docs/announcement_pack.md - LangChain forum version | planned | TBD | TBD |
 | GitHub repo announcement | 3 | Developer-facing project announcement | docs/announcement_pack.md - GitHub release announcement | planned | TBD | TBD |
 | Hugging Face Space community/update | 4 | Demo-facing introduction | docs/announcement_pack.md - Hugging Face Space description | planned | TBD | TBD |
@@ -188,7 +188,7 @@ Best,
 
 | Date | Channel | Link | Feedback summary | Theme | Severity | Follow-up needed | Owner | Status |
 |---|---|---|---|---|---|---|---|---|
-| TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD | new |
+| 2026-04-21 | CrewAI Forum | https://community.crewai.com/t/verifiable-tool-invocation-receipts-for-crewai-flows/7482 | Initial post published; awaiting feedback | documentation clarity | note | monitor replies | Zhang Bin | new |
 
 Theme options:
 
