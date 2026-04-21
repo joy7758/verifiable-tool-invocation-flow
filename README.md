@@ -16,6 +16,20 @@ A Hugging Face Spaces demo is available for validating signed execution receipts
 
 The demo is for inspection and experimentation only. Do not upload private keys, production receipts, confidential evidence bundles, API tokens, or sensitive data.
 
+## Related public assets
+
+This project is also available through related integration surfaces:
+
+- Core PyPI package: https://pypi.org/project/verifiable-tool-invocation-flow/0.1.1/
+- GitHub Marketplace Action: https://github.com/marketplace/actions/verify-agent-execution-receipt
+- Hugging Face validator demo: https://huggingface.co/spaces/joy7759/agent-receipt-validator
+- MCP server package: https://pypi.org/project/agent-receipt-validator-mcp/0.1.1/
+- MCP server repository: https://github.com/joy7758/agent-receipt-validator-mcp
+
+The MCP server exposes local stdio tools for validating signed agent execution receipts from MCP-compatible clients.
+
+The MCP server validates signed execution evidence. It does not prove semantic correctness of tool outputs, certify legal compliance, or replace sandboxing, IAM, access control, monitoring, or human approval.
+
 ## What this template does
 
 - Checks whether a tool invocation is allowed by an exact-match policy snapshot and tool manifest.
